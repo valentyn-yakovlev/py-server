@@ -6,7 +6,7 @@ import logging
 import datetime
 
 host = os.popen('ip addr show enp0s3 | grep "\<inet\>" | awk \'{ print $2 }\' | awk -F "/" \'{ print $1 }\'').read().strip()
-port = 8888
+port = 80
 addr = (host, port)
 
 now = datetime.datetime.now()
