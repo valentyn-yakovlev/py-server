@@ -1,6 +1,6 @@
 from socket import *
 
-host = 'localhost'
+host = '192.168.1.127'
 port = 8888
 addr = (host, port)
 
@@ -27,8 +27,7 @@ while True:
         conn.send(b'''Available commands:
             date: Return current date and time
             myip: Return client's IP address
-            help: See this help message
-            ''')
+            help: See this help message\n''')
         conn.close()
 
     elif data == b'myip\n':
