@@ -2,20 +2,27 @@
 
 from socket import *
 import os
+import sys
 import logging
 import datetime
 
-host = os.popen('ip addr show enp0s3 | grep "\<inet\>" | awk \'{ print $2 }\' | awk -F "/" \'{ print $1 }\'').read().strip()
-port = 80
+if not os.environ.get('LISTEN_ADDRESS'):
+    host = os.popen('ip addr show enp0s3 | grep "\<inet\>" | awk \'{ print $2 }\' | awk -F "/" \'{ print $1 }\'').read().strip()
+else:
+    host = os.environ.get('LISTEN_ADDRESS')
+    print('LISTEN_ADDRESS is ' + host)
+
+if not os.environ.get('LISTEN_PORT'):
+    port = 80
+else:
+    port = int(os.environ.get('LISTEN_PORT'))
+    print('LISTEN_PORT is ' + str(port))
+
 addr = (host, port)
-
 now = datetime.datetime.now()
-
 tcp_socket = socket(AF_INET, SOCK_STREAM)
 tcp_socket.bind(addr)
 tcp_socket.listen(1)
-
-
 logging.basicConfig(filename='/var/log/py-server.log',level=logging.DEBUG)
 logging.info('Starting server')
 
